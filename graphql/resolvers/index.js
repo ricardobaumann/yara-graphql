@@ -1,4 +1,5 @@
 const {addProduct, getProducts} = require("../../service/product/index");
+const {handleError} = require("../../error-handlers/index")
 
 const Query = {
     getProducts: async () => {
@@ -8,7 +9,7 @@ const Query = {
 
 const Mutation = {
     createProduct: async (_, {productName, productType}) => {
-        return addProduct(productName, productType);
+        return addProduct(productName, productType).catch(handleError);
     }
 }
 
