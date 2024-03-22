@@ -25,6 +25,13 @@ describe("Product Service", ()=> {
         expect(data.id).toBeDefined;
     })
 
+    it("should throw error on duplicated product", async ()=> {
+        prisma.product.create.mockRejectedValue(new Error("Unique constraint failed on the fields: (`productName`)"));
+        await expect(productService.addProduct("foo", "bar"))
+            .rejects
+            .toThrowError("DUPLICATED_PRODUCT");
+    })
+
     it("should list products",async () => {
         const products = [
             {

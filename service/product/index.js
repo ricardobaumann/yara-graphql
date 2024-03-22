@@ -1,3 +1,4 @@
+const {handleError} = require("../../error-handlers/index")
 
 class ProductService {
     constructor(prisma) {
@@ -10,7 +11,7 @@ class ProductService {
                 productName: productName,
                 productType: productType
             }
-        });
+        }).catch(handleError);
     }
 
     async getProducts()  {
