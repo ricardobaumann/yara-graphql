@@ -1,3 +1,13 @@
 type Query {
-    helloWorld: String
+    getProducts: [Product]
+}
+
+type Mutation {
+    createProduct(productName: String!,productType: String!): Product
+}
+
+type Product {
+    id: String,
+    productName: String!,
+    productType: String!
 }

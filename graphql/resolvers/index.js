@@ -1,5 +1,26 @@
 const Query = {
-    helloWorld: () => "FooBar"
+    getProducts: () => [
+        {
+            id: crypto.randomUUID(),
+            productName: "foo",
+            productType: "bar"
+        },
+        {
+            id: crypto.randomUUID(),
+            productName: "xyz",
+            productType: "type"
+        }
+    ]
 }
 
-module.exports = {Query}
+const Mutation = {
+    createProduct: (_,{productName, productType}) => {
+        return {
+            name: productName,
+            productType: productType,
+            id: crypto.randomUUID()
+        }
+    }
+}
+
+module.exports = {Query, Mutation}
