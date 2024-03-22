@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "start": "nodemon app.js",
-    "test": "vitest"
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "test": "yarn docker:up && yarn prisma migrate deploy && vitest"
   },
   "dependencies": {
     "@prisma/client": "^5.11.0",
@@ -19,7 +21,8 @@
     "morgan": "~1.9.1",
     "path": "^0.12.7",
     "pug": "2.0.0-beta11",
-    "supertest": "^6.3.4"
+    "supertest": "^6.3.4",
+    "yarn": "^1.22.22"
   },
   "devDependencies": {
     "@testcontainers/postgresql": "^10.7.2",

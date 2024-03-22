@@ -39,4 +39,6 @@ async function startServer() {
   return { apolloServer, app };
 }
 
+module.exports = apolloServer
+
 startServer();
