@@ -1,3 +1,5 @@
+const addProduct = require("../../service/product/index");
+
 const Query = {
     getProducts: () => [
         {
@@ -14,12 +16,8 @@ const Query = {
 }
 
 const Mutation = {
-    createProduct: (_,{productName, productType}) => {
-        return {
-            name: productName,
-            productType: productType,
-            id: crypto.randomUUID()
-        }
+    createProduct: async (_, {productName, productType}) => {
+        return addProduct(productName, productType);
     }
 }
 

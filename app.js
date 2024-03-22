@@ -3,6 +3,7 @@ const {ApolloServer} = require("apollo-server-express");
 const fs = require("fs");
 const path = require("path");
 const express = require("express");
+const dotenv = require("dotenv");
 
 const gqlFiles = fs.readdirSync(path.join(__dirname, "./graphql/typedefs"));
 
