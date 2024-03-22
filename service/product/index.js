@@ -10,4 +10,8 @@ const addProduct = (productName, productType) => {
     });
 }
 
-module.exports = addProduct
+const getProducts = () => {
+    return prisma.product.findMany();
+}
+
+module.exports = {addProduct, getProducts}

@@ -1,18 +1,9 @@
-const addProduct = require("../../service/product/index");
+const {addProduct, getProducts} = require("../../service/product/index");
 
 const Query = {
-    getProducts: () => [
-        {
-            id: crypto.randomUUID(),
-            productName: "foo",
-            productType: "bar"
-        },
-        {
-            id: crypto.randomUUID(),
-            productName: "xyz",
-            productType: "type"
-        }
-    ]
+    getProducts: async () => {
+        return getProducts();
+    }
 }
 
 const Mutation = {
