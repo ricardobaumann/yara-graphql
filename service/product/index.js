@@ -1,17 +1,22 @@
-const prisma = require("../../db/prisma")
 
-const addProduct = (productName, productType) => {
-    return prisma.product.create({
-        data: {
-            id: crypto.randomUUID().toString(),
-            productName: productName,
-            productType: productType
-        }
-    });
+class ProductService {
+    constructor(prisma) {
+        this.prisma = prisma;
+    }
+    async addProduct (productName, productType)  {
+        return this.prisma.product.create({
+            data: {
+                id: crypto.randomUUID().toString(),
+                productName: productName,
+                productType: productType
+            }
+        });
+    }
+
+    async getProducts()  {
+        return this.prisma.product.findMany();
+    }
+
 }
 
-const getProducts = () => {
-    return prisma.product.findMany();
-}
-
-module.exports = {addProduct, getProducts}
+module.exports = {ProductService}
