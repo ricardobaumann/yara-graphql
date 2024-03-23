@@ -13,24 +13,47 @@ describe("Product Integration Testing", ()=>{
             data: {
                 id: crypto.randomUUID().toString(),
                 productName: "one",
-                productType: "type1"
+                productType: "STANDARD"
             }
         });
     })
 
     it("should create a product",async ()=> {
-        return await productService.addProduct("foo", "bar")
+        return await productService.addProduct("foo", "STANDARD")
             .then(value => {
                 expect(value.productName).toBe("foo");
-                expect(value.productType).toBe("bar");
+                expect(value.productType).toBe("STANDARD");
                 expect(value.id).toBeDefined;
             })
     })
 
     it("should now allow duplicated product", async()=> {
-        expect(()=> productService.addProduct("one", "bar"))
+        expect(()=> productService.addProduct("one", "HAZARDOUS"))
             .rejects
             .toThrowError("DUPLICATED_PRODUCT");
+    })
+
+    it.each([
+        "",
+        " ",
+        null,
+        undefined
+    ])('should validate product name', async (productName) => {
+        expect(()=> productService.addProduct(productName, "HAZARDOUS"))
+            .rejects
+            .toThrowError("INVALID_PRODUCT_NAME");
+    })
+
+    it.each([
+        "",
+        " ",
+        null,
+        "whatever",
+        undefined
+    ])('should validate product type', async (productType) => {
+        expect(()=> productService.addProduct("new", productType))
+            .rejects
+            .toThrowError("INVALID_PRODUCT_TYPE");
     })
 
     it("should list products", async () => {
@@ -39,7 +62,7 @@ describe("Product Integration Testing", ()=>{
                 expect(value.length).toBe(1);
                 expect(value[0].id).toBeDefined;
                 expect(value[0].productName).toBe("one");
-                expect(value[0].productType).toBe("type1");
+                expect(value[0].productType).toBe("STANDARD");
             })
     })
 

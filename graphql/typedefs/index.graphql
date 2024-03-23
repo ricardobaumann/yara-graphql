@@ -9,5 +9,10 @@ type Mutation {
 type Product {
     id: String,
     productName: String!,
-    productType: String!
+    productType: ProductType!
+}
+
+enum ProductType {
+    HAZARDOUS,
+    STANDARD
 }

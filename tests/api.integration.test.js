@@ -35,7 +35,7 @@ describe("API Integration testing", ()=> {
             data: {
                 id: crypto.randomUUID().toString(),
                 productName: "one",
-                productType: "type1"
+                productType: "STANDARD"
             }
         });
     })
@@ -47,9 +47,83 @@ describe("API Integration testing", ()=> {
         expect(response.data).toEqual({
             getProducts: [{
                 productName: "one",
-                productType: "type1"
+                productType: "STANDARD"
             }]
         });
     });
+
+    it("should create a product", async () => {
+        const response = await testServer.executeOperation({
+            query: ` mutation CreateProduct($productName: String!, $productType: String!) {
+                          createProduct(productName: $productName, productType: $productType) {
+                                id
+                                productName
+                                productType
+                            }
+                    }`,
+            variables: {
+                productName: "foo",
+                productType: "STANDARD"
+            }
+        });
+        expect(response.data.createProduct.id).not.toBeNull();
+        expect(response.data.createProduct.productName).toBe("foo");
+        expect(response.data.createProduct.productType).toBe("STANDARD");
+        expect(response.data.createProduct.productType).toBe("STANDARD");
+    })
+
+    it("should not allow duplicated products",async()=> {
+        const response = await testServer.executeOperation({
+            query: ` mutation CreateProduct($productName: String!, $productType: String!) {
+                          createProduct(productName: $productName, productType: $productType) {
+                                id
+                                productName
+                                productType
+                            }
+                    }`,
+            variables: {
+                productName: "one",
+                productType: "STANDARD"
+            }
+        });
+        expect(response.errors.length).toBe(1);
+        expect(response.errors[0].message).toBe("DUPLICATED_PRODUCT");
+    })
+
+    it("should not allow empty product name",async()=> {
+        const response = await testServer.executeOperation({
+            query: ` mutation CreateProduct($productName: String!, $productType: String!) {
+                          createProduct(productName: $productName, productType: $productType) {
+                                id
+                                productName
+                                productType
+                            }
+                    }`,
+            variables: {
+                productName: " ",
+                productType: "STANDARD"
+            }
+        });
+        expect(response.errors.length).toBe(1);
+        expect(response.errors[0].message).toBe("INVALID_PRODUCT_NAME");
+    })
+
+    it("should validate api input",async () => {
+        const response = await testServer.executeOperation({
+            query: ` mutation CreateProduct($productName: String!, $productType: String!) {
+                          createProduct(productName: $productName, productType: $productType) {
+                                id
+                                productName
+                                productType
+                            }
+                    }`,
+            variables: {
+                productName: "foo",
+                productType: "whatever"
+            }
+        });
+        expect(response.errors.length).toBe(1);
+        expect(response.errors[0].message).toBe("INVALID_PRODUCT_TYPE");
+    })
 
 })
