@@ -8,11 +8,13 @@ class ProductService {
     }
 
     validate(productName, productType) {
-        if (productName === null || productName === undefined || productName.trim().length == 0) {
+        if (!(productName === null || productName === undefined || productName.trim().length === 0)) {
+            if (!(productType === null || !ProductService.productTypes.includes(productType))) {
+            } else {
+                throw new Error("INVALID_PRODUCT_TYPE");
+            }
+        } else {
             throw new Error("INVALID_PRODUCT_NAME");
-        }
-        if (productType === null || productName === undefined || !ProductService.productTypes.includes(productType)) {
-            throw new Error("INVALID_PRODUCT_TYPE");
         }
     }
 

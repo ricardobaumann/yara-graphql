@@ -3,7 +3,7 @@ type Query {
 }
 
 type Mutation {
-    createProduct(productName: String!,productType: String!): Product
+    createProduct(productName: String!,productType: ProductType!): Product
 }
 
 type Product {

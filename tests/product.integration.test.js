@@ -7,8 +7,7 @@ const productService = new ProductService(prisma);
 describe("Product Integration Testing", ()=>{
 
     beforeEach(async()=> {
-        await prisma.product.deleteMany();
-
+        await prisma.product.deleteMany()
         await prisma.product.create({
             data: {
                 id: crypto.randomUUID().toString(),
@@ -16,6 +15,7 @@ describe("Product Integration Testing", ()=>{
                 productType: "STANDARD"
             }
         });
+        expect(await prisma.product.count()).toBe(1);
     })
 
     it("should create a product",async ()=> {
@@ -24,6 +24,9 @@ describe("Product Integration Testing", ()=>{
                 expect(value.productName).toBe("foo");
                 expect(value.productType).toBe("STANDARD");
                 expect(value.id).toBeDefined;
+            }).then(value => {
+                prisma.product.count()
+                    .then(count => expect(count).toBe(2));
             })
     })
 
@@ -31,6 +34,8 @@ describe("Product Integration Testing", ()=>{
         expect(()=> productService.addProduct("one", "HAZARDOUS"))
             .rejects
             .toThrowError("DUPLICATED_PRODUCT");
+        prisma.product.count()
+            .then(count => expect(count).toBe(1));
     })
 
     it.each([
@@ -42,6 +47,8 @@ describe("Product Integration Testing", ()=>{
         expect(()=> productService.addProduct(productName, "HAZARDOUS"))
             .rejects
             .toThrowError("INVALID_PRODUCT_NAME");
+        prisma.product.count()
+            .then(count => expect(count).toBe(1));
     })
 
     it.each([
@@ -54,6 +61,8 @@ describe("Product Integration Testing", ()=>{
         expect(()=> productService.addProduct("new", productType))
             .rejects
             .toThrowError("INVALID_PRODUCT_TYPE");
+        prisma.product.count()
+            .then(count => expect(count).toBe(1));
     })
 
     it("should list products", async () => {

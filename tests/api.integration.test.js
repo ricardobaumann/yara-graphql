@@ -1,9 +1,7 @@
 const {ApolloServer} = require("apollo-server-express");
-import { expect, vi, describe, it, beforeAll, beforeEach } from "vitest";
+import { expect, describe, it, beforeEach } from "vitest";
 const fs = require("fs");
 const path = require("path");
-const express = require("express");
-const dotenv = require("dotenv");
 
 const gqlFiles = fs.readdirSync(path.join(__dirname, "../graphql/typedefs"));
 
@@ -54,7 +52,7 @@ describe("API Integration testing", ()=> {
 
     it("should create a product", async () => {
         const response = await testServer.executeOperation({
-            query: ` mutation CreateProduct($productName: String!, $productType: String!) {
+            query: ` mutation CreateProduct($productName: String!, $productType: ProductType!) {
                           createProduct(productName: $productName, productType: $productType) {
                                 id
                                 productName
@@ -74,7 +72,7 @@ describe("API Integration testing", ()=> {
 
     it("should not allow duplicated products",async()=> {
         const response = await testServer.executeOperation({
-            query: ` mutation CreateProduct($productName: String!, $productType: String!) {
+            query: ` mutation CreateProduct($productName: String!, $productType: ProductType!) {
                           createProduct(productName: $productName, productType: $productType) {
                                 id
                                 productName
@@ -92,7 +90,7 @@ describe("API Integration testing", ()=> {
 
     it("should not allow empty product name",async()=> {
         const response = await testServer.executeOperation({
-            query: ` mutation CreateProduct($productName: String!, $productType: String!) {
+            query: ` mutation CreateProduct($productName: String!, $productType: ProductType!) {
                           createProduct(productName: $productName, productType: $productType) {
                                 id
                                 productName
@@ -108,9 +106,9 @@ describe("API Integration testing", ()=> {
         expect(response.errors[0].message).toBe("INVALID_PRODUCT_NAME");
     })
 
-    it("should validate api input",async () => {
+    it("should validate product type",async () => {
         const response = await testServer.executeOperation({
-            query: ` mutation CreateProduct($productName: String!, $productType: String!) {
+            query: ` mutation CreateProduct($productName: String!, $productType: ProductType!) {
                           createProduct(productName: $productName, productType: $productType) {
                                 id
                                 productName
@@ -123,7 +121,7 @@ describe("API Integration testing", ()=> {
             }
         });
         expect(response.errors.length).toBe(1);
-        expect(response.errors[0].message).toBe("INVALID_PRODUCT_TYPE");
+        expect(response.errors[0].message).toBe("Variable \"$productType\" got invalid value \"whatever\"; Value \"whatever\" does not exist in \"ProductType\" enum.");
     })
 
 })
