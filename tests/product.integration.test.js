@@ -20,11 +20,11 @@ describe("Product Integration Testing", ()=>{
 
     it("should create a product",async ()=> {
         return await productService.addProduct("foo", "STANDARD")
-            .then(value => {
-                expect(value.productName).toBe("foo");
-                expect(value.productType).toBe("STANDARD");
-                expect(value.id).toBeDefined;
-            }).then(value => {
+            .then(result => {
+                expect(result.productName).toBe("foo");
+                expect(result.productType).toBe("STANDARD");
+                expect(result.id).toBeDefined();
+            }).then(() => {
                 prisma.product.count()
                     .then(count => expect(count).toBe(2));
             })
@@ -67,11 +67,11 @@ describe("Product Integration Testing", ()=>{
 
     it("should list products", async () => {
         return await productService.getProducts()
-            .then(value => {
-                expect(value.length).toBe(1);
-                expect(value[0].id).toBeDefined;
-                expect(value[0].productName).toBe("one");
-                expect(value[0].productType).toBe("STANDARD");
+            .then(results => {
+                expect(results.length).toBe(1);
+                expect(results[0].id).toBeDefined();
+                expect(results[0].productName).toBe("one");
+                expect(results[0].productType).toBe("STANDARD");
             })
     })
 
