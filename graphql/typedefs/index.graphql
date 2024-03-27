@@ -1,15 +1,29 @@
 type Query {
     getProducts: [Product]
+    getWarehouses: [Warehouse]
 }
 
 type Mutation {
     createProduct(productName: String!,productType: ProductType!): Product
+    createTransactions(warehouseId: String!, transactions: [TransactionInput]!): String
 }
 
 type Product {
     id: String,
     productName: String!,
     productType: ProductType!
+}
+
+input TransactionInput {
+    productId: String,
+    hazardous: Boolean,
+    amount: Float
+}
+
+type Warehouse {
+    id: String,
+    code: String,
+    hazardous: Boolean
 }
 
 enum ProductType {

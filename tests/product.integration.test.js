@@ -1,5 +1,5 @@
 import { expect, describe, it, beforeEach } from "vitest";
-import {ProductService} from "../service/product/index";
+import {ProductService} from "../service/product/product-service";
 const prisma = require("../db/prisma");
 
 const productService = new ProductService(prisma);
