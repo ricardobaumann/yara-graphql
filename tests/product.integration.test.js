@@ -1,4 +1,4 @@
-import { expect, vi, describe, it, beforeAll, beforeEach } from "vitest";
+import { expect, describe, it, beforeEach } from "vitest";
 import {ProductService} from "../service/product/index";
 const prisma = require("../db/prisma");
 
@@ -18,11 +18,14 @@ describe("Product Integration Testing", ()=>{
         expect(await prisma.product.count()).toBe(1);
     })
 
-    it("should create a product",async ()=> {
-        return await productService.addProduct("foo", "STANDARD")
+    it.each([
+        "STANDARD",
+        "HAZARDOUS"
+    ])("should create a valid product",async (productType)=> {
+        return await productService.addProduct("foo", productType)
             .then(result => {
                 expect(result.productName).toBe("foo");
-                expect(result.productType).toBe("STANDARD");
+                expect(result.productType).toBe(productType);
                 expect(result.id).toBeDefined();
             }).then(() => {
                 prisma.product.count()

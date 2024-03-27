@@ -50,7 +50,7 @@ describe("API Integration testing", ()=> {
         });
     });
 
-    it("should create a product", async () => {
+    it("should create a valid product", async () => {
         const response = await testServer.executeOperation({
             query: ` mutation CreateProduct($productName: String!, $productType: ProductType!) {
                           createProduct(productName: $productName, productType: $productType) {
@@ -67,8 +67,8 @@ describe("API Integration testing", ()=> {
         expect(response.data.createProduct.id).not.toBeNull();
         expect(response.data.createProduct.productName).toBe("foo");
         expect(response.data.createProduct.productType).toBe("STANDARD");
-        expect(response.data.createProduct.productType).toBe("STANDARD");
-    })
+    });
+
 
     it("should not allow duplicated products",async()=> {
         const response = await testServer.executeOperation({
