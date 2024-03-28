@@ -1,6 +1,6 @@
 const {ProductService} = require("../../service/product/product-service");
 const {WarehouseService} = require("../../service/warehouse/warehouse-service");
-const prisma = require("../../db/prisma")
+const prisma = require("../../db/prisma");
 
 const productService = new ProductService(prisma);
 const warehouseService = new WarehouseService();
@@ -15,8 +15,8 @@ const Query = {
 }
 
 const Mutation = {
-    createProduct: async (_, {productName, productType}) => {
-        return productService.addProduct(productName, productType);
+    createProduct: async (_, {productName, productType, sizePerUnit}) => {
+        return productService.addProduct(productName, productType, sizePerUnit);
     },
     createTransactions: async (_, {warehouseId,transactions}) => {
         return warehouseService.createTransactions(warehouseId, transactions);

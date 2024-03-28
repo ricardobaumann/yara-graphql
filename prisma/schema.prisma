@@ -17,4 +17,5 @@ model Product {
   id String @id
   productName String @unique
   productType String
+  sizePerUnit Int @default(1)
 }

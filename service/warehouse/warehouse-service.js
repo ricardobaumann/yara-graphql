@@ -1,4 +1,6 @@
 const axios = require('axios');
+const prisma = require("../../db/prisma");
+
 class WarehouseService {
 
     constructor() {
@@ -13,13 +15,20 @@ class WarehouseService {
             .then(value => value.data);
     }
     async createTransactions(warehouseId, transactions) {
+        let products = await prisma.product.findMany(
+            {where: {id: {in: transactions.map(item => item['productId'])}}}
+        );
+
         return this.client.post(`/warehouses/${warehouseId}/transactions`,
-            transactions.map(item => {
-                return {
-                    product_id: item['productId'],
+             transactions.map(item => {
+                let productId = item['productId'];
+                let product = products.find(prod => prod['id'] === productId);
+                 return {
+                    product_id: productId,
                     amount: item['amount'],
-                    hazardous: item['hazardous']
-                }
+                    hazardous: product.productType === "HAZARDOUS",
+                    sizePerUnit: product.sizePerUnit
+                };
             }))
             .then(result => {
                 if (result.status === 200) {

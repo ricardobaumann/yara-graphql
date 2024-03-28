@@ -4,7 +4,7 @@ type Query {
 }
 
 type Mutation {
-    createProduct(productName: String!,productType: ProductType!): Product
+    createProduct(productName: String!,productType: ProductType!, sizePerUnit: Int!): Product
     createTransactions(warehouseId: String!, transactions: [TransactionInput]!): String
 }
 
@@ -12,18 +12,20 @@ type Product {
     id: String,
     productName: String!,
     productType: ProductType!
+    sizePerUnit: Int!
 }
 
 input TransactionInput {
     productId: String,
-    hazardous: Boolean,
     amount: Float
 }
 
 type Warehouse {
     id: String,
     code: String,
-    hazardous: Boolean
+    hazardous: Boolean,
+    capacity: Int,
+    occupied: Float
 }
 
 enum ProductType {

@@ -18,13 +18,14 @@ class ProductService {
         }
     }
 
-    async addProduct (productName, productType)  {
+    async addProduct (productName, productType, sizePerUnit)  {
         this.validate(productName, productType);
         return this.prisma.product.create({
             data: {
                 id: crypto.randomUUID().toString(),
                 productName: productName,
-                productType: productType
+                productType: productType,
+                sizePerUnit: sizePerUnit
             }
         }).catch(handleError);
     }

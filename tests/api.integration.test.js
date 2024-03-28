@@ -52,36 +52,41 @@ describe("API Integration testing", ()=> {
 
     it("should create a valid product", async () => {
         const response = await testServer.executeOperation({
-            query: ` mutation CreateProduct($productName: String!, $productType: ProductType!) {
-                          createProduct(productName: $productName, productType: $productType) {
+            query: ` mutation CreateProduct($productName: String!, $productType: ProductType!, $sizePerUnit: Int!) {
+                          createProduct(productName: $productName, productType: $productType, sizePerUnit: $sizePerUnit) {
                                 id
                                 productName
                                 productType
+                                sizePerUnit
                             }
                     }`,
             variables: {
                 productName: "foo",
-                productType: "STANDARD"
+                productType: "STANDARD",
+                sizePerUnit: 10
             }
         });
         expect(response.data.createProduct.id).not.toBeNull();
         expect(response.data.createProduct.productName).toBe("foo");
         expect(response.data.createProduct.productType).toBe("STANDARD");
+        expect(response.data.createProduct.sizePerUnit).toBe(10);
     });
 
 
     it("should not allow duplicated products",async()=> {
         const response = await testServer.executeOperation({
-            query: ` mutation CreateProduct($productName: String!, $productType: ProductType!) {
-                          createProduct(productName: $productName, productType: $productType) {
+            query: ` mutation CreateProduct($productName: String!, $productType: ProductType!, $sizePerUnit: Int!) {
+                          createProduct(productName: $productName, productType: $productType, sizePerUnit: $sizePerUnit) {
                                 id
                                 productName
                                 productType
+                                sizePerUnit
                             }
                     }`,
             variables: {
                 productName: "one",
-                productType: "STANDARD"
+                productType: "STANDARD",
+                sizePerUnit: 10
             }
         });
         expect(response.errors.length).toBe(1);
@@ -90,16 +95,18 @@ describe("API Integration testing", ()=> {
 
     it("should not allow empty product name",async()=> {
         const response = await testServer.executeOperation({
-            query: ` mutation CreateProduct($productName: String!, $productType: ProductType!) {
-                          createProduct(productName: $productName, productType: $productType) {
+            query: ` mutation CreateProduct($productName: String!, $productType: ProductType!, $sizePerUnit: Int!) {
+                          createProduct(productName: $productName, productType: $productType, sizePerUnit: $sizePerUnit) {
                                 id
                                 productName
                                 productType
+                                sizePerUnit
                             }
                     }`,
             variables: {
                 productName: " ",
-                productType: "STANDARD"
+                productType: "STANDARD",
+                sizePerUnit: 10
             }
         });
         expect(response.errors.length).toBe(1);
@@ -108,16 +115,18 @@ describe("API Integration testing", ()=> {
 
     it("should validate product type",async () => {
         const response = await testServer.executeOperation({
-            query: ` mutation CreateProduct($productName: String!, $productType: ProductType!) {
-                          createProduct(productName: $productName, productType: $productType) {
+            query: ` mutation CreateProduct($productName: String!, $productType: ProductType!, $sizePerUnit: Int!) {
+                          createProduct(productName: $productName, productType: $productType, sizePerUnit: $sizePerUnit) {
                                 id
                                 productName
                                 productType
+                                sizePerUnit
                             }
                     }`,
             variables: {
                 productName: "foo",
-                productType: "whatever"
+                productType: "whatever",
+                sizePerUnit: 10
             }
         });
         expect(response.errors.length).toBe(1);
