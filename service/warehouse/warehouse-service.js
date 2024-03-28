@@ -41,6 +41,12 @@ class WarehouseService {
             })
             ;
     }
+
+    async listTransactions(warehouseId) {
+        console.log(`Listing transactions from ${warehouseId}`);
+        return this.client.get(`/warehouses/${warehouseId}/transactions`)
+            .then(value => value.data);
+    }
 }
 
 module.exports = {WarehouseService}

@@ -11,6 +11,9 @@ const Query = {
     },
     getWarehouses: async () => {
         return warehouseService.listWarehouses();
+    },
+    getTransactions: async (_, {warehouseId}) => {
+        return warehouseService.listTransactions(warehouseId);
     }
 }
 

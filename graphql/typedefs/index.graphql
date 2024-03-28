@@ -1,11 +1,18 @@
 type Query {
     getProducts: [Product]
     getWarehouses: [Warehouse]
+    getTransactions(warehouseId: String!): [Transaction]
 }
 
 type Mutation {
     createProduct(productName: String!,productType: ProductType!, sizePerUnit: Int!): Product
     createTransactions(warehouseId: String!, transactions: [TransactionInput]!): String
+}
+
+type Transaction {
+    id: String,
+    product_id: String,
+    amount: Float
 }
 
 type Product {
