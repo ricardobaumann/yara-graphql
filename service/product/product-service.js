@@ -1,6 +1,8 @@
 const {handleError} = require("../../error-handlers/index")
 
-
+/**
+ * Service for product business logic and operations
+ */
 class ProductService {
     static productTypes = ["STANDARD", "HAZARDOUS"];
     constructor(prisma) {
@@ -18,6 +20,13 @@ class ProductService {
         }
     }
 
+    /**
+     * Add a product with given parameters
+     * @param productName
+     * @param productType
+     * @param sizePerUnit
+     * @returns {Promise<Promise<GetResult<Prisma.$ProductPayload<DefaultArgs>, {data: {sizePerUnit, id: string, productName, productType}}, "create">> & {}>}
+     */
     async addProduct (productName, productType, sizePerUnit)  {
         this.validate(productName, productType);
         return this.prisma.product.create({
@@ -30,6 +39,10 @@ class ProductService {
         }).catch(handleError);
     }
 
+    /**
+     * Return the product list
+     * @returns {PrismaPromise<GetFindResult<Prisma.$ProductPayload<DefaultArgs>, Prisma.ProductFindManyArgs<DefaultArgs>>[]>}
+     */
     async getProducts()  {
         return this.prisma.product.findMany();
     }
