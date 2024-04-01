@@ -12,7 +12,9 @@ type Mutation {
 type Transaction {
     id: String,
     product_id: String,
-    amount: Float
+    amount: Float,
+    transactionDate: String
+    sizePerUnit: Int
 }
 
 type Product {
@@ -24,7 +26,8 @@ type Product {
 
 input TransactionInput {
     productId: String,
-    amount: Float
+    amount: Float,
+    transactionDate: String
 }
 
 type Warehouse {

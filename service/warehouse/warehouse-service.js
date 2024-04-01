@@ -18,16 +18,20 @@ class WarehouseService {
         let products = await prisma.product.findMany(
             {where: {id: {in: transactions.map(item => item['productId'])}}}
         );
-
+        console.log(`Creating transaction for warehouse ${warehouseId}`);
         return this.client.post(`/warehouses/${warehouseId}/transactions`,
              transactions.map(item => {
                 let productId = item['productId'];
                 let product = products.find(prod => prod['id'] === productId);
+                console.log(`Transaction date: ${item['transactionDate']}`);   
+                 let transactionDate = new Date(item['transactionDate']).toISOString();
+                 console.log(`Transaction Date: ${transactionDate}`);
                  return {
                     product_id: productId,
                     amount: item['amount'],
                     hazardous: product.productType === "HAZARDOUS",
-                    sizePerUnit: product.sizePerUnit
+                    sizePerUnit: product.sizePerUnit,
+                     transactionDate: transactionDate
                 };
             }))
             .then(result => {

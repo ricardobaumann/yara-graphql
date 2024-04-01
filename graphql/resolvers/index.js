@@ -6,7 +6,7 @@ const productService = new ProductService(prisma);
 const warehouseService = new WarehouseService();
 
 const Query = {
-    getProducts: async () => {
+    getProducts: async () => {    
         return productService.getProducts();
     },
     getWarehouses: async () => {
