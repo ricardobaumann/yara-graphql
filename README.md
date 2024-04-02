@@ -18,8 +18,7 @@ The service stack includes:
 ## Usage
 
 1. Ensure that [yara-rest](https://github.com/ricardobaumann/yara-rest) is running. 
-To set up and run the service on your local, run
 
-`chmod +x run_local.sh && ./run_local.sh`
+2. Run `chmod +x run_local.sh && ./run_local.sh` on the project root folder. 
 
-If everything worked, API should be reachable on [localhost](http://localhost:4000/graphql)
+3. If everything worked, API should be reachable on [localhost](http://localhost:4000/graphql)
