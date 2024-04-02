@@ -17,7 +17,7 @@ The service stack includes:
   
 ## Usage
 
-To setup and run the service on your local, run
+To set up and run the service on your local, run
 
 `chmod +x run_local.sh && ./run_local.sh`
 
