@@ -17,6 +17,7 @@ The service stack includes:
   
 ## Usage
 
+1. Ensure that [yara-rest](https://github.com/ricardobaumann/yara-rest) is running. 
 To set up and run the service on your local, run
 
 `chmod +x run_local.sh && ./run_local.sh`
