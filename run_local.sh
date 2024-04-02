@@ -1,2 +1,5 @@
 #!/bin/sh
-docker-compose -d && npm install && npm start
+set -e
+docker-compose up -d
+npm install
+npm start
